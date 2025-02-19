@@ -1,7 +1,14 @@
-export default function App() {
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import SignUp_Login from "./Components/Signup_Login";
+
+function App() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hello, Tailwind!</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignUp_Login />} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
