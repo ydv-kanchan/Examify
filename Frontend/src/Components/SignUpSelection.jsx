@@ -19,7 +19,7 @@ const SignUpSelection = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-white to-gray-100 text-gray-900 p-6">
+    <div className="flex flex-col justify-center items-center min-h-[calc(100vh-64px)] bg-gradient-to-br from-white to-gray-100 text-gray-900 p-6">
       <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-center">
         Join Us Today
       </h2>
@@ -33,7 +33,7 @@ const SignUpSelection = () => {
         <div
           className={`flex flex-col items-center bg-white shadow-lg p-6 md:p-10 rounded-xl w-72 md:w-80 cursor-pointer border transform transition-all duration-300 ${
             selectedRole === "vendor"
-              ? "scale-105 shadow-xl border-blue-400"
+              ? "scale-105 shadow-xl border-orange-400"
               : "hover:scale-105 border-gray-200"
           }`}
           onClick={() => handleSelection("vendor")}

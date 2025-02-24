@@ -4,7 +4,7 @@ import AboutUs from "./Components/AboutUs";
 import SignUp_Login from "./Components/Signup_Login";
 import SignUpSelection from "./Components/SignUpSelection";
 import CustomerSignup from "./Components/CustomerSignup";
-import VendorSignup from "./Components/VendorSinup";
+import VendorSignup from "./Components/VendorSignup";
 
 function App() {
   return (

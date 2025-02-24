@@ -15,9 +15,8 @@ const SignUp_Login = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-gray-100 to-white text-gray-900 p-6">
+    <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-100 to-white text-gray-900 p-2">
       <div className="relative bg-white flex w-full max-w-5xl overflow-hidden flex-col md:flex-row shadow-xl rounded-3xl border border-gray-200">
-        {/* Left Side (Login Section) */}
         <div className="w-full md:w-1/2 p-12 flex flex-col justify-center items-center bg-white rounded-l-3xl">
           <h2 className="text-4xl font-extrabold text-gray-800 mb-6">
             Welcome Back!

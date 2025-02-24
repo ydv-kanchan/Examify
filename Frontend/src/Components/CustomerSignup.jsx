@@ -32,7 +32,7 @@ const CustomerSignup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-50 to-green-100 text-gray-900 p-6">
+    <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-gradient-to-br from-green-50 to-green-100 text-gray-900 p-6">
       <div
         className={`bg-white flex flex-col w-full shadow-xl rounded-2xl p-10 relative transition-all duration-300 transform hover:scale-[1.02] ${
           step === 3 ? "max-w-lg min-h-[400px] p-10" : "max-w-2xl min-h-[550px]"
