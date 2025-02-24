@@ -1,8 +1,6 @@
-import { Routes, Route } from "react-router-dom";
+import { Router, Routes, Route } from "react-router-dom"; 
 import Navbar from './Components/Navbar';
 import AboutUs from "./Components/AboutUs";
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUp_Login from "./Components/Signup_Login";
 import SignUpSelection from "./Components/SignUpSelection";
 import CustomerSignup from "./Components/CustomerSignup";
@@ -12,7 +10,6 @@ function App() {
   return (
     <div>
       <Navbar />
-    <Router>
       <Routes>
         <Route path="/" element={<SignUp_Login />} />
         <Route path="/signup-selection" element={<SignUpSelection />} />
@@ -20,7 +17,6 @@ function App() {
         <Route path="/signup/vendor" element={<VendorSignup />} />{" "}
         <Route path="/about" element={<AboutUs />} />
       </Routes>
-    </Router>
     </div>
   );
 }
