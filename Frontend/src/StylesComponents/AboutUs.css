@@ -1,0 +1,138 @@
+.container {
+    margin-top: 20px;
+    width: 100%;
+    height: 50vh;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to right, #f8f9fa, #ddeaf8); /* Soft business-like gradient */
+}
+
+.backgroundOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2); /* Light overlay for readability */
+    z-index: 1;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.textContainer {
+    flex: 1;
+    padding: 20px;
+    z-index: 2;
+}
+
+.heading {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    color: #2c3e50; /* Darker business theme */
+}
+
+.description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #2b2a2a;
+    text-align: left;
+}
+
+.button_moto {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #007bff; /* Business-like blue */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.button_moto:hover {
+    background-color: #0056b3; /* Darker blue hover effect */
+    transform: scale(1.05);
+}
+
+.iconContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.icon {
+    font-size: 4rem;
+    color: #444;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (min-width: 500px) and (max-width: 800px) {
+    .heading {
+        font-size: 1.7rem;
+    }
+    .button_moto {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+    .description {
+        font-size: 14px;
+    }
+    .icon {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 1060px) {
+    .heading {
+        font-size: 2rem;
+    }
+    .button_moto {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+    }
+    .description {
+        font-size: 16px;
+    }
+    .icon {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 1060px) {
+    .heading {
+        font-size: 2.3rem;
+    }
+    .button_moto {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+    }
+    .description {
+        font-size: 18px;
+    }
+    .icon {
+        font-size: 3rem;
+    }
+}

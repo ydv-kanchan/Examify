@@ -1,7 +1,14 @@
+import { Routes, Route } from "react-router-dom";
+import Navbar from './Components/Navbar';
+import AboutUs from "./Components/AboutUs";
+
 export default function App() {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello, Tailwind!</h1>
+      <Navbar />
+      <Routes>
+        <Route path="/about" element={<AboutUs />} />
+      </Routes>
     </div>
   );
 }
