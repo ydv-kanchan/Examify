@@ -27,8 +27,33 @@ const CustomerSignup = () => {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    console.log("Form Data Submitted:", formData); 
+  
+    try {
+      const response = await fetch("http://localhost:3000/api/customer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+      console.log("Response from Server:", data);
+  
+      if (response.ok) {
+        alert("Signup successful!");
+        navigate("/"); 
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (

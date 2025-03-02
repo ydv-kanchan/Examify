@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 const SignUp_Login = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,6 +16,32 @@ const SignUp_Login = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:3000/api/customer/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message);
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+
+      navigate("/home");
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-64px)] bg-gradient-to-br from-gray-100 to-white text-gray-900 p-2">
