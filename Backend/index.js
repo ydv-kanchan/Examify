@@ -5,6 +5,7 @@ const verifyRoutes = require("./routes/verify");
 const customerLoginRouter = require('./routes/login');
 const app = express();
 app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 app.use("/api/customer", customerRoutes);

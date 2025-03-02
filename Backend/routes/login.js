@@ -31,7 +31,7 @@ router.post("/", validateLogin, async (req, res) => {
         return res.status(400).json({ message: "Please verify your email before logging in." });
       }
 
-      const isMatch = await comparePassword(password, user.password);
+      const isMatch = await  comparePassword(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ message: "Incorrect password" });
       }

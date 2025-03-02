@@ -35,7 +35,7 @@ router.post("/", validateSignup, async (req, res) => {
       country,
       pincode,
     } = req.body;
-
+ 
     const checkUserSql = "SELECT * FROM customers WHERE username = ? OR email = ?";
     db.query(checkUserSql, [username, email], async (err, result) => {
       if (err) {
@@ -100,3 +100,4 @@ router.post("/", validateSignup, async (req, res) => {
 });
 
 module.exports = router;
+

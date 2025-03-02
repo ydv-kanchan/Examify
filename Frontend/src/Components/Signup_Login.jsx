@@ -50,13 +50,16 @@ const SignUp_Login = () => {
           <h2 className="text-4xl font-extrabold text-gray-800 mb-6">
             Welcome Back!
           </h2>
-          <form className="w-full max-w-md">
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <form className="w-full max-w-md" onSubmit={handleLogin}>
             <div className="mb-5">
               <label className="block text-gray-700 text-sm font-semibold mb-2">
                 EMAIL
               </label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 required
               />
@@ -67,6 +70,8 @@ const SignUp_Login = () => {
               </label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 required
               />
@@ -108,7 +113,6 @@ const SignUp_Login = () => {
           )}
         </div>
 
-        {/* OR Button in the Center */}
         {!isMobile && (
           <div className="absolute inset-y-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 flex justify-center items-center">
             <div className="w-14 h-14 bg-gradient-to-r from-blue-300 to-blue-500 text-white font-semibold flex items-center justify-center rounded-full shadow-lg border-4 border-white">
@@ -117,7 +121,6 @@ const SignUp_Login = () => {
           </div>
         )}
 
-        {/* Right Side (Sign Up Section) */}
         {!isMobile && (
           <div className="w-1/2 flex flex-col justify-center items-center text-white relative bg-gradient-to-r from-blue-200 to-blue-500 p-12 rounded-r-3xl">
             <h2 className="text-4xl font-extrabold mb-4">New Here?</h2>

@@ -20,6 +20,8 @@ const CustomerSignup = () => {
     pincode: "",
   });
 
+  const [errors, setErrors] = useState([]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -29,7 +31,8 @@ const CustomerSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setErrors([]);
+
     console.log("Form Data Submitted:", formData); 
   
     try {
@@ -43,16 +46,15 @@ const CustomerSignup = () => {
   
       const data = await response.json();
       console.log("Response from Server:", data);
-  
-      if (response.ok) {
-        alert("Signup successful!");
-        navigate("/"); 
-      } else {
-        alert(`Error: ${data.error}`);
+      if (!response.ok) {
+        if (data.errors) {
+          setErrors(data.errors.map((err) => err.msg));}
+        return;
       }
+      alert("Signup successful!A verification email has been sent to your account");
+      navigate("/"); 
     } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Something went wrong. Please try again.");
+      setErrors(["Something went wrong. Please try again."]);
     }
   };
 
@@ -70,7 +72,14 @@ const CustomerSignup = () => {
             ? "Address Details"
             : "Confirm Details"}
         </h2>
-
+        
+        {errors.length > 0 && (
+          <div className="text-red-500 mb-4 text-center">
+            {errors.map((err, index) => (
+              <p key={index}>{err}</p>
+            ))}
+          </div>
+        )}
         {/* Step Indicators */}
         <div className="flex justify-center mb-6">
           <div className="flex items-center space-x-5">
