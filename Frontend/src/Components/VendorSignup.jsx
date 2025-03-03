@@ -8,6 +8,7 @@ const CustomerSignup = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    username: "",
     password: "",
     confirmPassword: "",
     phone: "",
@@ -19,11 +20,12 @@ const CustomerSignup = () => {
     storeName: "",
     storeDescription: "",
     storeLogo: null,
-    storeBanner: null,
     productCategories: "",
     shippingPolicy: "",
     returnPolicy: "",
   });
+
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -32,7 +34,37 @@ const CustomerSignup = () => {
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
-  const handleSubmit = (e) => e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+
+    console.log("Form Data Submitted:", formData); 
+  
+    try {
+      const response = await fetch("http://localhost:3000/api/signup/vendors", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await response.json();
+      console.log("Response from Server:", data);
+      if (!response.ok) {
+        if (data.errors) {
+          setErrors(data.errors.map((err) => err.msg));}
+        else if (data.message) {
+          setErrors([data.message]);
+        }
+        return;
+      }
+      alert("Signup successful!A verification email has been sent to your account");
+      navigate("/"); 
+    } catch (error) {
+      setErrors(["Something went wrong. Please try again."]);
+    }
+  };
 
   const stepTitles = [
     "Basic Information",
@@ -44,7 +76,7 @@ const CustomerSignup = () => {
   ];
 
   const inputFields = {
-    1: ["fullName", "email", "phone", "password", "confirmPassword"],
+    1: ["fullName", "email","username","phone", "password", "confirmPassword"],
     2: [
       "businessName",
       "businessType",
@@ -64,6 +96,14 @@ const CustomerSignup = () => {
         <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-5">
           {stepTitles[step - 1]}
         </h2>
+
+        {errors.length > 0 && (
+          <div className="text-red-500 mb-4 text-center">
+            {errors.map((err, index) => (
+              <p key={index}>{err}</p>
+            ))}
+          </div>
+        )}
 
         {/* Step Indicators */}
         <div className="flex justify-center mb-6">
@@ -151,13 +191,6 @@ const CustomerSignup = () => {
                 className="w-full p-3 border mb-3 rounded-md focus:ring-2 focus:ring-green-400 transition-all"
                 required
               />
-              <input
-                type="file"
-                name="storeBanner"
-                accept="image/*"
-                onChange={handleChange}
-                className="w-full p-3 border mb-3 rounded-md focus:ring-2 focus:ring-green-400 transition-all"
-              />
             </>
           )}
 
@@ -193,18 +226,6 @@ const CustomerSignup = () => {
             </>
           )}
 
-          {step === 6 && (
-            <>
-              {Object.entries(formData)
-                .slice(0, 6)
-                .map(([key, value]) => (
-                  <p key={key} className="text-gray-700">
-                    <strong>{key.replace(/([A-Z])/g, " $1").trim()}:</strong>{" "}
-                    {value}
-                  </p>
-                ))}
-            </>
-          )}
 
           <div className="flex justify-between mt-auto">
             {step > 1 && (
@@ -217,7 +238,7 @@ const CustomerSignup = () => {
               </button>
             )}
 
-            {step > 1 && step < 6 && (
+            {step > 1 && step < 5 && (
               <button
                 type="button"
                 onClick={nextStep}
@@ -227,7 +248,7 @@ const CustomerSignup = () => {
               </button>
             )}
 
-            {step === 6 && (
+            {step === 5 && (
               <button
                 type="submit"
                 className="bg-orange-500 text-white py-2 px-6 rounded-lg hover:bg-orange-600 transition-all duration-300 transform hover:scale-105"

@@ -1,16 +1,16 @@
 const express = require("express");
 const cors = require("cors");
-const customerRoutes = require("./routes/customer");
+const signupRouter = require("./routes/signup");
 const verifyRoutes = require("./routes/verify");
-const customerLoginRouter = require('./routes/login');
+const loginRouter = require('./routes/login');
 const app = express();
 app.use(cors());
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-app.use("/api/customer", customerRoutes);
+app.use("/api/signup", signupRouter);
 app.use("/api/verify", verifyRoutes);
-app.use("/api/customer/login",customerLoginRouter);
+app.use("/api/login",loginRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -36,7 +36,7 @@ const CustomerSignup = () => {
     console.log("Form Data Submitted:", formData); 
   
     try {
-      const response = await fetch("http://localhost:3000/api/customer", {
+      const response = await fetch("http://localhost:3000/api/signup/customers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

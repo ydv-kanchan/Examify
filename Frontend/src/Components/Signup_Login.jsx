@@ -9,6 +9,8 @@ const SignUp_Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const [userType, setUserType] = useState("customer");
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -22,7 +24,7 @@ const SignUp_Login = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/customer/login", {
+      const response = await fetch(`http://localhost:3000/api/login/${userType}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -75,6 +77,33 @@ const SignUp_Login = () => {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 required
               />
+            </div>
+{/* ------------------------------------------------------------------------------------------ */}
+            <div className="mb-5 flex justify-center items-center gap-4">
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  id="customer"
+                  name="userType"
+                  value="customer"
+                  checked={userType === "customer"}
+                  onChange={() => setUserType("customer")}
+                  className="accent-blue-500"
+                />
+                <label htmlFor="customer" className="text-gray-700">Customer</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  id="seller"
+                  name="userType"
+                  value="seller"
+                  checked={userType === "seller"}
+                  onChange={() => setUserType("seller")}
+                  className="accent-blue-500"
+                />
+                <label htmlFor="seller" className="text-gray-700">Seller</label>
+              </div>
             </div>
             <p className="text-sm text-blue-500 hover:text-blue-700 cursor-pointer text-right mb-4">
               Forgot Password?
