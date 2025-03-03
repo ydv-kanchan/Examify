@@ -27,6 +27,7 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
       email,
       username,
       password,
+      confirmPassword,
       phone,
       houseNo,
       landmark,
@@ -35,7 +36,10 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
       country,
       pincode,
     } = req.body;
- 
+
+    if(password != confirmPassword){
+      return res.status(400).json({error: "Password does not match"});
+    }
     const checkUserSql = "SELECT * FROM customers WHERE username = ? OR email = ?";
     db.query(checkUserSql, [username, email], async (err, result) => {
       if (err) {
@@ -99,7 +103,7 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
   }
 });
 
-router.post("/vendors", async (req, res) => {
+router.post("/vendors", validateSignup("vendor"),async (req, res) => {
   console.log("Received Data (Vendor):", req.body);
 
   try {
@@ -123,6 +127,9 @@ router.post("/vendors", async (req, res) => {
       returnPolicy,
     } = req.body;
 
+    if(password != confirmPassword){
+      return res.status(400).json({error:"Passwords do not match"});
+    }
     const checkUserSql = "SELECT * FROM vendors WHERE username = ? OR email = ?";
     db.query(checkUserSql, [username, email], async (err, result) => {
       if (err) {
@@ -140,14 +147,14 @@ router.post("/vendors", async (req, res) => {
       const verificationUrl = `http://localhost:3000/api/verify/vendor?token=${verificationToken}`;
 
       const insertSql = `INSERT INTO vendors 
-        (fullName, email, username, password, confirmPassword, phone, businessName, businessType, businessRegNo,
+         (fullName, email, username, password, phone, businessName, businessType, businessRegNo,
         businessAddress, website, storeName, storeDescription, storeLogo, productCategories, shippingPolicy, returnPolicy, is_verified) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
       db.query(
         insertSql,
         [
-          fullName, email, username, hashedPassword, confirmPassword, phone, businessName, businessType,
+          fullName, email, username, hashedPassword, phone, businessName, businessType,
           businessRegNo, businessAddress, website, storeName, storeDescription, storeLogo || null,
           productCategories, shippingPolicy, returnPolicy, false,
         ],
