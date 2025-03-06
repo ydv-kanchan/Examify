@@ -35,5 +35,5 @@ Currently, we have implemented the **first phase** of the project, where:
 
 ### 1️⃣ Clone the repository  
 ```sh
-git clone https://github.com/your-username/EasyMart.git
+git clone https://github.com/ydv-kanchan/EasyMart.git 
 cd EasyMart
