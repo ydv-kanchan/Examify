@@ -37,10 +37,11 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
       pincode,
     } = req.body;
 
-    if(password != confirmPassword){
-      return res.status(400).json({error: "Password does not match"});
+    if (password != confirmPassword) {
+      return res.status(400).json({ error: "Password does not match" });
     }
-    const checkUserSql = "SELECT * FROM customers WHERE username = ? OR email = ?";
+    const checkUserSql =
+      "SELECT * FROM customers WHERE username = ? OR email = ?";
     db.query(checkUserSql, [username, email], async (err, result) => {
       if (err) {
         console.error("Error checking user:", err);
@@ -48,13 +49,18 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
       }
       if (result.length > 0) {
         return res.status(400).json({
-          message: result[0].username === username ? "Username is already taken" : "Email is already taken",
+          message:
+            result[0].username === username
+              ? "Username is already taken"
+              : "Email is already taken",
         });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const verificationToken = jwt.sign({ email }, JWT_SECRET, { expiresIn: "1d" });
+      const verificationToken = jwt.sign({ email }, JWT_SECRET, {
+        expiresIn: "1d",
+      });
       const verificationUrl = `http://localhost:3000/api/verify/customer?token=${verificationToken}`;
 
       const insertSql = `INSERT INTO customers (full_name, email,username, password, phone, house_no, landmark, city, state, country, pincode, is_verified)
@@ -90,10 +96,12 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
                    <a href="${verificationUrl}">Verify Email</a>
                    <p>If you didn't sign up, please ignore this email.</p>
                    <p>Thanks,</p>
-                   <p>The EasyMart Team</p>`
+                   <p>The EasyMart Team</p>`,
           });
 
-          res.status(201).json({ message: "Signup successful. Please verify your email." });
+          res
+            .status(201)
+            .json({ message: "Signup successful. Please verify your email." });
         }
       );
     });
@@ -103,7 +111,7 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
   }
 });
 
-router.post("/vendors", validateSignup("vendor"),async (req, res) => {
+router.post("/vendors", validateSignup("vendor"), async (req, res) => {
   console.log("Received Data (Vendor):", req.body);
 
   try {
@@ -127,10 +135,11 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
       returnPolicy,
     } = req.body;
 
-    if(password != confirmPassword){
-      return res.status(400).json({error:"Passwords do not match"});
+    if (password != confirmPassword) {
+      return res.status(400).json({ error: "Passwords do not match" });
     }
-    const checkUserSql = "SELECT * FROM vendors WHERE username = ? OR email = ?";
+    const checkUserSql =
+      "SELECT * FROM vendors WHERE username = ? OR email = ?";
     db.query(checkUserSql, [username, email], async (err, result) => {
       if (err) {
         console.error("Error checking vendor:", err);
@@ -138,12 +147,17 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
       }
       if (result.length > 0) {
         return res.status(400).json({
-          message: result[0].username === username ? "Username is already taken" : "Email is already taken",
+          message:
+            result[0].username === username
+              ? "Username is already taken"
+              : "Email is already taken",
         });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const verificationToken = jwt.sign({ email }, JWT_SECRET, { expiresIn: "1d" });
+      const verificationToken = jwt.sign({ email }, JWT_SECRET, {
+        expiresIn: "1d",
+      });
       const verificationUrl = `http://localhost:3000/api/verify/vendor?token=${verificationToken}`;
 
       const insertSql = `INSERT INTO vendors 
@@ -154,9 +168,23 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
       db.query(
         insertSql,
         [
-          fullName, email, username, hashedPassword, phone, businessName, businessType,
-          businessRegNo, businessAddress, website, storeName, storeDescription, storeLogo || null,
-          productCategories, shippingPolicy, returnPolicy, false,
+          fullName,
+          email,
+          username,
+          hashedPassword,
+          phone,
+          businessName,
+          businessType,
+          businessRegNo,
+          businessAddress,
+          website,
+          storeName,
+          storeDescription,
+          storeLogo || null,
+          productCategories,
+          shippingPolicy,
+          returnPolicy,
+          false,
         ],
         async (err) => {
           if (err) {
@@ -173,7 +201,9 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
                   <a href="${verificationUrl}">Verify Email</a>`,
           });
 
-          res.status(201).json({ message: "Vendor signup successful. Please verify your email." });
+          res.status(201).json({
+            message: "Vendor signup successful. Please verify your email.",
+          });
         }
       );
     });
@@ -183,6 +213,4 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
