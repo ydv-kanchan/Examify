@@ -33,26 +33,34 @@ const CustomerSignup = () => {
     e.preventDefault();
     setErrors([]);
 
-    console.log("Form Data Submitted:", formData); 
-  
+    console.log("Form Data Submitted:", formData);
+
     try {
-      const response = await fetch("http://localhost:3000/api/signup/customers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-  
+      const response = await fetch(
+        "http://localhost:3000/api/signup/customers",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
       const data = await response.json();
       console.log("Response from Server:", data);
       if (!response.ok) {
         if (data.errors) {
-          setErrors(data.errors.map((err) => err.msg));}
+          setErrors(data.errors.map((err) => err.msg));
+        } else if (data.message) {
+          setErrors([data.message]);
+        }
         return;
       }
-      alert("Signup successful!A verification email has been sent to your account");
-      navigate("/"); 
+      alert(
+        "Signup successful!A verification email has been sent to your account"
+      );
+      navigate("/");
     } catch (error) {
       setErrors(["Something went wrong. Please try again."]);
     }
@@ -72,7 +80,7 @@ const CustomerSignup = () => {
             ? "Address Details"
             : "Confirm Details"}
         </h2>
-        
+
         {errors.length > 0 && (
           <div className="text-red-500 mb-4 text-center">
             {errors.map((err, index) => (
