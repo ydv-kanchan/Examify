@@ -122,7 +122,6 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
       website,
       storeName,
       storeDescription,
-      storeLogo,
       productCategories,
       shippingPolicy,
       returnPolicy,
@@ -149,14 +148,14 @@ router.post("/vendors", validateSignup("vendor"),async (req, res) => {
 
       const insertSql = `INSERT INTO vendors 
          (fullName, email, username, password, phone, businessName, businessType, businessRegNo,
-        businessAddress, website, storeName, storeDescription, storeLogo, productCategories, shippingPolicy, returnPolicy, is_verified) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        businessAddress, website, storeName, storeDescription, productCategories, shippingPolicy, returnPolicy, is_verified) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
       db.query(
         insertSql,
         [
           fullName, email, username, hashedPassword, phone, businessName, businessType,
-          businessRegNo, businessAddress, website, storeName, storeDescription, storeLogo || null,
+          businessRegNo, businessAddress, website, storeName, storeDescription,
           productCategories, shippingPolicy, returnPolicy, false,
         ],
         async (err) => {

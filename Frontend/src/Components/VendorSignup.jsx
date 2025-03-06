@@ -189,14 +189,6 @@ const VendorSignup = () => {
                 className="w-full p-3 border mb-3 rounded-md focus:ring-2 focus:ring-green-400 transition-all"
                 required
               />
-              <input
-                type="file"
-                name="storeLogo"
-                accept="image/*"
-                onChange={handleChange}
-                className="w-full p-3 border mb-3 rounded-md focus:ring-2 focus:ring-green-400 transition-all"
-                required
-              />
             </>
           )}
 
