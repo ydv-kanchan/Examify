@@ -61,7 +61,6 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
       const verificationToken = jwt.sign({ email }, JWT_SECRET, {
         expiresIn: "1d",
       });
-      const verificationUrl = `http://localhost:3000/api/verify/customer?token=${verificationToken}`;
 
       const insertSql = `INSERT INTO customers (full_name, email,username, password, phone, house_no, landmark, city, state, country, pincode, is_verified)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)`;
@@ -69,8 +68,8 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
         insertSql,
         [
           fullName,
-          username,
           email,
+          username,
           hashedPassword,
           phone,
           houseNo,
@@ -85,6 +84,8 @@ router.post("/customers", validateSignup("customer"), async (req, res) => {
             console.error("Error inserting customer:", err);
             return res.status(500).json({ error: "Database error" });
           }
+
+          const verificationUrl = `http://localhost:3000/api/verify/customer?token=${verificationToken}`;
 
           await transporter.sendMail({
             from: `"EasyMart" <${process.env.EMAIL}>`,

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
-const CustomerSignup = () => {
+const VendorSignup = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -76,7 +76,14 @@ const CustomerSignup = () => {
   ];
 
   const inputFields = {
-    1: ["fullName", "email","username","phone", "password", "confirmPassword"],
+    1: [
+      "fullName", 
+      "email",
+      "username",
+      "phone", 
+      "password", 
+      "confirmPassword"
+    ],
     2: [
       "businessName",
       "businessType",
@@ -156,7 +163,6 @@ const CustomerSignup = () => {
                 <hr className="flex-grow border-gray-300" />
               </div>
 
-              {/* Google Signup Button */}
               <button className="w-full border border-gray-400 py-3 flex items-center justify-center gap-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105 text-lg font-medium">
                 <FcGoogle className="text-2xl" />
                 <span className="text-gray-700">Signup with Google</span>
@@ -263,4 +269,4 @@ const CustomerSignup = () => {
   );
 };
 
-export default CustomerSignup;
+export default VendorSignup;
