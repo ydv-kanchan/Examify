@@ -27,9 +27,7 @@ const SignUpSelection = () => {
         Choose your role and start your journey with us.
       </p>
 
-      {/* Cards Container */}
       <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl justify-center items-center">
-        {/* Vendor Card */}
         <div
           className={`flex flex-col items-center bg-white shadow-lg p-6 md:p-10 rounded-xl w-72 md:w-80 cursor-pointer border transform transition-all duration-300 ${
             selectedRole === "vendor"
@@ -45,11 +43,10 @@ const SignUpSelection = () => {
           </p>
         </div>
 
-        {/* User Card */}
         <div
           className={`flex flex-col items-center bg-white shadow-lg p-6 md:p-10 rounded-xl w-72 md:w-80 cursor-pointer border transform transition-all duration-300 ${
             selectedRole === "user"
-              ? "scale-105 shadow-xl border-green-400" // Green border when selected
+              ? "scale-105 shadow-xl border-green-400"
               : "hover:scale-105 border-gray-200"
           }`}
           onClick={() => handleSelection("user")}
@@ -61,8 +58,6 @@ const SignUpSelection = () => {
           </p>
         </div>
       </div>
-
-      {/* Proceed Button */}
       {selectedRole && (
         <button
           onClick={handleProceed}
@@ -72,7 +67,6 @@ const SignUpSelection = () => {
         </button>
       )}
 
-      {/* Back to Sign In */}
       <p
         className="mt-6 text-gray-500 cursor-pointer hover:text-gray-700 transition-all duration-300"
         onClick={() => navigate("/signin")}

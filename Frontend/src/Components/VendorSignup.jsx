@@ -112,7 +112,6 @@ const VendorSignup = () => {
           </div>
         )}
 
-        {/* Step Indicators */}
         <div className="flex justify-center mb-6">
           <div className="flex items-center space-x-5">
             {[...Array(6)].map((_, num) => (
@@ -157,7 +156,7 @@ const VendorSignup = () => {
                 </button>
               </div>
 
-              <div className="flex items-center my-3">
+              {/* <div className="flex items-center my-3">
                 <hr className="flex-grow border-gray-300" />
                 <span className="px-3 text-gray-500 text-sm">OR</span>
                 <hr className="flex-grow border-gray-300" />
@@ -166,7 +165,7 @@ const VendorSignup = () => {
               <button className="w-full border border-gray-400 py-3 flex items-center justify-center gap-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105 text-lg font-medium">
                 <FcGoogle className="text-2xl" />
                 <span className="text-gray-700">Signup with Google</span>
-              </button>
+              </button> */}
             </>
           )}
 

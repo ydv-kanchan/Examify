@@ -78,7 +78,6 @@ const SignUp_Login = () => {
                 required
               />
             </div>
-{/* ------------------------------------------------------------------------------------------ */}
             <div className="mb-5 flex justify-center items-center gap-4">
               <div className="flex items-center gap-2">
                 <input
@@ -116,18 +115,18 @@ const SignUp_Login = () => {
             </button>
           </form>
 
-          <div className="flex items-center my-6 w-full max-w-md">
+          {/* <div className="flex items-center my-6 w-full max-w-md">
             <hr className="flex-grow border-gray-300" />
             <span className="mx-3 text-gray-500">OR</span>
             <hr className="flex-grow border-gray-300" />
-          </div>
+          </div> */}
 
-          <button className="w-full max-w-md border border-gray-400 py-3 flex items-center justify-center gap-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105">
+          {/* <button className="w-full max-w-md border border-gray-400 py-3 flex items-center justify-center gap-3 rounded-lg hover:bg-gray-100 transition transform hover:scale-105">
             <FcGoogle className="text-3xl" />
             <span className="text-gray-700 font-semibold">
               Sign in with Google
             </span>
-          </button>
+          </button> */}
 
           {isMobile && (
             <p className="mt-6 text-gray-600">
@@ -163,12 +162,12 @@ const SignUp_Login = () => {
             >
               Sign Up
             </button>
-            <button className="w-full border border-white py-3 flex items-center justify-center gap-3 rounded-lg hover:bg-blue-300 transition transform hover:scale-105">
+            {/* <button className="w-full border border-white py-3 flex items-center justify-center gap-3 rounded-lg hover:bg-blue-300 transition transform hover:scale-105">
               <FcGoogle className="text-3xl" />
               <span className="text-white font-semibold">
                 Sign up with Google
               </span>
-            </button>
+            </button> */}
           </div>
         )}
       </div>
