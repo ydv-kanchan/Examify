@@ -9,7 +9,7 @@ const SignUp_Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const [userType, setUserType] = useState("customer");
+  const [userType, setUserType] = useState("student");
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,11 +24,14 @@ const SignUp_Login = () => {
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:3000/api/login/${userType}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/login/${userType}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
@@ -82,14 +85,16 @@ const SignUp_Login = () => {
               <div className="flex items-center gap-2">
                 <input
                   type="radio"
-                  id="customer"
+                  id="student"
                   name="userType"
-                  value="customer"
-                  checked={userType === "customer"}
-                  onChange={() => setUserType("customer")}
+                  value="student"
+                  checked={userType === "student"}
+                  onChange={() => setUserType("student")}
                   className="accent-blue-500"
                 />
-                <label htmlFor="customer" className="text-gray-700">Student</label>
+                <label htmlFor="student" className="text-gray-700">
+                  Student
+                </label>
               </div>
               <div className="flex items-center gap-2">
                 <input
@@ -101,7 +106,9 @@ const SignUp_Login = () => {
                   onChange={() => setUserType("teacher")}
                   className="accent-blue-500"
                 />
-                <label htmlFor="teacher" className="text-gray-700">Staff</label>
+                <label htmlFor="teacher" className="text-gray-700">
+                  Staff
+                </label>
               </div>
             </div>
             <p className="text-sm text-blue-500 hover:text-blue-700 cursor-pointer text-right mb-4">
@@ -153,7 +160,7 @@ const SignUp_Login = () => {
           <div className="w-1/2 flex flex-col justify-center items-center text-white relative bg-gradient-to-r from-blue-200 to-blue-500 p-12 rounded-r-3xl">
             <h2 className="text-4xl font-extrabold mb-4">New Here?</h2>
             <p className="text-lg text-center mb-6">
-            Sign up to conduct, manage, and take exams effortlessly!
+              Sign up to conduct, manage, and take exams effortlessly!
             </p>
             <button
               className="w-full border-2 border-white text-white py-3 rounded-lg shadow-md hover:bg-white hover:text-blue-500 transition transform hover:scale-105 mb-4"

@@ -2,14 +2,13 @@ import { Router, Routes, Route } from "react-router-dom";
 import AboutUs from "./Components/AboutUs";
 import SignUp_Login from "./Components/Signup_Login";
 import SignUpSelection from "./Components/SignUpSelection";
-import CustomerSignup from "./Components/CustomerSignup";
 import StudentSignup from "./Components/StudentSignup";
-import VendorSignup from "./Components/VendorSignup";
+import Navbar from "./Components/Navbar";
 
 function App() {
   return (
     <div>
-      {/* // <Navbar /> */}
+      <Navbar />
       <Routes>
         <Route path="/" element={<SignUp_Login />} />
         <Route path="/signup-selection" element={<SignUpSelection />} />

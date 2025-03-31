@@ -34,11 +34,14 @@ const StudentSignup = () => {
     setErrors([]);
 
     try {
-      const response = await fetch("http://localhost:3000/api/signup/students", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/signup/students",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
       if (!response.ok) {
@@ -104,20 +107,24 @@ const StudentSignup = () => {
 
           {step === 2 && (
             <>
-              {["studentId", "classGrade", "course", "section", "department"].map(
-                (field, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    name={field}
-                    placeholder={field.replace(/([A-Z])/g, " $1").trim()}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className="w-full p-3 border mb-3 rounded-md"
-                    required
-                  />
-                )
-              )}
+              {[
+                "studentId",
+                "classGrade",
+                "course",
+                "section",
+                "department",
+              ].map((field, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  name={field}
+                  placeholder={field.replace(/([A-Z])/g, " $1").trim()}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className="w-full p-3 border mb-3 rounded-md"
+                  required
+                />
+              ))}
             </>
           )}
 
@@ -141,7 +148,10 @@ const StudentSignup = () => {
                 Next
               </button>
             ) : (
-              <button type="submit" className="bg-green-500 text-white py-2 px-6 rounded-md">
+              <button
+                type="submit"
+                className="bg-green-500 text-white py-2 px-6 rounded-md"
+              >
                 Finish
               </button>
             )}
