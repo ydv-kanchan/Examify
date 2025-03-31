@@ -7,7 +7,7 @@ dotenv.config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-router.get("/customer", async (req, res) => {
+router.get("/teacher", async (req, res) => {
   const { token } = req.query;
   console.log(req.query.token);
 
@@ -18,7 +18,7 @@ router.get("/customer", async (req, res) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    const checkUserSql = "SELECT * FROM customers WHERE email = ?";
+    const checkUserSql = "SELECT * FROM teachers WHERE email = ?";
     db.query(checkUserSql, [decoded.email], (err, result) => {
       if (err) {
         console.error("Database error:", err);
@@ -34,7 +34,7 @@ router.get("/customer", async (req, res) => {
         return res.status(400).json({ message: "Email is already verified" });
       }
 
-      const updateSql = "UPDATE customers SET is_verified = true WHERE email = ?";
+      const updateSql = "UPDATE teachers SET is_verified = true WHERE email = ?";
       db.query(updateSql, [decoded.email], (err) => {
         if (err) {
           console.error("Error updating verification status:", err);
@@ -50,7 +50,8 @@ router.get("/customer", async (req, res) => {
   }
 });
 
-router.get("/vendor", async (req, res) => {
+
+router.get("/student", async (req, res) => {
   const { token } = req.query;
   console.log(req.query.token);
 
@@ -61,7 +62,7 @@ router.get("/vendor", async (req, res) => {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    const checkUserSql = "SELECT * FROM vendors WHERE email = ?";
+    const checkUserSql = "SELECT * FROM students WHERE email = ?";
     db.query(checkUserSql, [decoded.email], (err, result) => {
       if (err) {
         console.error("Database error:", err);
@@ -77,7 +78,7 @@ router.get("/vendor", async (req, res) => {
         return res.status(400).json({ message: "Email is already verified" });
       }
 
-      const updateSql = "UPDATE vendors SET is_verified = true WHERE email = ?";
+      const updateSql = "UPDATE students SET is_verified = true WHERE email = ?";
       db.query(updateSql, [decoded.email], (err) => {
         if (err) {
           console.error("Error updating verification status:", err);
@@ -92,5 +93,7 @@ router.get("/vendor", async (req, res) => {
     res.status(400).json({ message: "Invalid or expired token" });
   }
 });
+
+
 
 module.exports = router;

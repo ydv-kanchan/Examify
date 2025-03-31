@@ -1,8 +1,8 @@
 const { body, validationResult } = require("express-validator");
 
 const commonValidations = [
-  body("fullName").notEmpty().withMessage("Full name is required"),
-  body("username").notEmpty().withMessage("Username is required"),
+  body("firstName").notEmpty().withMessage("First name is required"),
+  body("lastName").notEmpty().withMessage("Last name is required"),
   body("email").isEmail().withMessage("Invalid email format"),
   body("password")
     .isLength({ min: 6 })
@@ -10,33 +10,32 @@ const commonValidations = [
   body("confirmPassword")
     .custom((value, { req }) => value === req.body.password)
     .withMessage("Passwords must match"),
+  body("phone").notEmpty().withMessage("Phone number is required"),
 ];
 
-const customerValidations = [
-  body("houseNo").notEmpty().withMessage("House number is required"),
-  body("landmark").notEmpty().withMessage("Landmark is required"),
-  body("city").notEmpty().withMessage("City is required"),
-  body("state").notEmpty().withMessage("State is required"),
-  body("country").notEmpty().withMessage("Country is required"),
-  body("pincode").isPostalCode("IN").withMessage("Invalid pincode"),
+const teacherValidations = [
+  body("teacherId").notEmpty().withMessage("Teacher ID is required"),
+  body("qualification").notEmpty().withMessage("Qualification is required"),
+  body("specialization").notEmpty().withMessage("Specialization is required"),
+  body("institution").notEmpty().withMessage("Institution name is required"),
+  body("designation").notEmpty().withMessage("Designation is required"),
 ];
 
-const vendorValidations = [
-  body("businessName").notEmpty().withMessage("Business name is required"),
-  body("gstNumber")
-    .optional()
-    .isLength({ min: 15, max: 15 })
-    .withMessage("Invalid GST number"),
-  body("businessAddress")
-    .notEmpty()
-    .withMessage("Business address is required"),
-  body("businessType").notEmpty().withMessage("Business type is required"),
+const studentValidations = [
+  body("studentId").notEmpty().withMessage("Student ID is required"),
+  body("dateOfBirth").notEmpty().withMessage("Date of birth is required"),
+  body("gender").notEmpty().withMessage("Gender is required"),
+  body("classGrade").notEmpty().withMessage("Class grade is required"),
+  body("course").notEmpty().withMessage("Course is required"),
+  body("section").notEmpty().withMessage("Section is required"),
+  body("department").notEmpty().withMessage("Department is required"),
 ];
 
 const validateSignup = (role) => {
   return [
     ...commonValidations,
-    ...(role === "customer" ? customerValidations : vendorValidations),
+    ...(role === "teacher" ? teacherValidations : []),
+    ...(role === "student" ? studentValidations : []),
     (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {

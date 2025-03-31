@@ -18,139 +18,125 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-router.post("/customers", validateSignup("customer"), async (req, res) => {
-  console.log("Received Data:", req.body);
+router.post("/students", validateSignup("student"), async (req, res) => {
+  console.log("Received Data (Student):", req.body);
 
   try {
     const {
-      fullName,
+      firstName,
+      lastName,
+      dateOfBirth,
+      gender,
       email,
-      username,
+      phone,
       password,
       confirmPassword,
-      phone,
-      houseNo,
-      landmark,
-      city,
-      state,
-      country,
-      pincode,
+      studentId,
+      classGrade,
+      course,
+      section,
+      department,
     } = req.body;
 
-    if (password != confirmPassword) {
-      return res.status(400).json({ error: "Password does not match" });
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: "Passwords do not match" });
     }
-    const checkUserSql =
-      "SELECT * FROM customers WHERE username = ? OR email = ?";
-    db.query(checkUserSql, [username, email], async (err, result) => {
+
+    const checkUserSql = "SELECT * FROM students WHERE email = ? OR student_id = ?";
+    db.query(checkUserSql, [email, studentId], async (err, result) => {
       if (err) {
-        console.error("Error checking user:", err);
+        console.error("Error checking student:", err);
         return res.status(500).json({ error: "Database error" });
       }
       if (result.length > 0) {
         return res.status(400).json({
-          message:
-            result[0].username === username
-              ? "Username is already taken"
-              : "Email is already taken",
+          message: result[0].email === email ? "Email is already taken" : "Student ID is already taken",
         });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-
       const verificationToken = jwt.sign({ email }, JWT_SECRET, {
         expiresIn: "1d",
       });
+      const verificationUrl = `http://localhost:3000/api/verify/student?token=${verificationToken}`;
 
-      const insertSql = `INSERT INTO customers (full_name, email,username, password, phone, house_no, landmark, city, state, country, pincode, is_verified)
-                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)`;
+      const insertSql = `INSERT INTO students (first_name, last_name, date_of_birth, gender, email, phone, password, student_id, class_grade, course, section, department, is_verified)
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)`;
+
       db.query(
         insertSql,
         [
-          fullName,
+          firstName,
+          lastName,
+          dateOfBirth,
+          gender,
           email,
-          username,
-          hashedPassword,
           phone,
-          houseNo,
-          landmark,
-          city,
-          state,
-          country,
-          pincode,
+          hashedPassword,
+          studentId,
+          classGrade,
+          course,
+          section,
+          department,
         ],
-        async (err, result) => {
+        async (err) => {
           if (err) {
-            console.error("Error inserting customer:", err);
+            console.error("Error inserting student:", err);
             return res.status(500).json({ error: "Database error" });
           }
-
-          const verificationUrl = `http://localhost:3000/api/verify/customer?token=${verificationToken}`;
 
           await transporter.sendMail({
             from: `"EasyMart" <${process.env.EMAIL}>`,
             to: email,
             subject: "Verify your email",
-            html: `<p>Hi ${fullName},</p>
+            html: `<p>Hi ${firstName},</p>
                    <p>Welcome to our platform! 🎉</p>
-                   <p>Please confirm your email address by clicking the link below:</p>
-                   <a href="${verificationUrl}">Verify Email</a>
-                   <p>If you didn't sign up, please ignore this email.</p>
-                   <p>Thanks,</p>
-                   <p>The EasyMart Team</p>`,
+                   <p>Please confirm your email:</p>
+                   <a href="${verificationUrl}">Verify Email</a>`,
           });
 
-          res
-            .status(201)
-            .json({ message: "Signup successful. Please verify your email." });
+          res.status(201).json({
+            message: "Student signup successful. Please verify your email.",
+          });
         }
       );
     });
   } catch (error) {
-    console.error(error);
+    console.error("Internal Server Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-router.post("/vendors", validateSignup("vendor"), async (req, res) => {
-  console.log("Received Data (Vendor):", req.body);
+router.post("/teachers", validateSignup("teacher"), async (req, res) => {
+  console.log("Received Data (Teacher):", req.body);
 
   try {
     const {
-      fullName,
+      firstName,
+      lastName,
       email,
-      username,
       password,
       confirmPassword,
       phone,
-      businessName,
-      businessType,
-      businessRegNo,
-      businessAddress,
-      website,
-      storeName,
-      storeDescription,
-      productCategories,
-      shippingPolicy,
-      returnPolicy,
+      teacherId,
+      qualification,
+      specialization,
+      institution,
+      designation,
     } = req.body;
 
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
     }
-    const checkUserSql =
-      "SELECT * FROM vendors WHERE username = ? OR email = ?";
-    db.query(checkUserSql, [username, email], async (err, result) => {
+    const checkUserSql = "SELECT * FROM teachers WHERE email = ? OR teacher_id = ?";
+    db.query(checkUserSql, [email, teacherId], async (err, result) => {
       if (err) {
-        console.error("Error checking vendor:", err);
+        console.error("Error checking teacher:", err);
         return res.status(500).json({ error: "Database error" });
       }
       if (result.length > 0) {
         return res.status(400).json({
-          message:
-            result[0].username === username
-              ? "Username is already taken"
-              : "Email is already taken",
+          message: result[0].email === email ? "Email is already taken" : "Teacher ID is already taken",
         });
       }
 
@@ -158,23 +144,28 @@ router.post("/vendors", validateSignup("vendor"), async (req, res) => {
       const verificationToken = jwt.sign({ email }, JWT_SECRET, {
         expiresIn: "1d",
       });
-      const verificationUrl = `http://localhost:3000/api/verify/vendor?token=${verificationToken}`;
+      const verificationUrl = `http://localhost:3000/api/verify/teacher?token=${verificationToken}`;
 
-      const insertSql = `INSERT INTO vendors 
-         (fullName, email, username, password, phone, businessName, businessType, businessRegNo,
-        businessAddress, website, storeName, storeDescription, productCategories, shippingPolicy, returnPolicy, is_verified) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      const insertSql = `INSERT INTO teachers (first_name, last_name, email, password, phone, teacher_id, qualification, specialization, institution, designation, is_verified)
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, false)`;
 
       db.query(
         insertSql,
         [
-          fullName, email, username, hashedPassword, phone, businessName, businessType,
-          businessRegNo, businessAddress, website, storeName, storeDescription,
-          productCategories, shippingPolicy, returnPolicy, false,
+          firstName,
+          lastName,
+          email,
+          hashedPassword,
+          phone,
+          teacherId,
+          qualification,
+          specialization,
+          institution,
+          designation,
         ],
         async (err) => {
           if (err) {
-            console.error("Error inserting vendor:", err);
+            console.error("Error inserting teacher:", err);
             return res.status(500).json({ error: "Database error" });
           }
 
@@ -182,13 +173,14 @@ router.post("/vendors", validateSignup("vendor"), async (req, res) => {
             from: `"EasyMart" <${process.env.EMAIL}>`,
             to: email,
             subject: "Verify your email",
-            html: `<p>Hi ${fullName},</p><p>Welcome to our platform! 🎉</p>
-                  <p>Please confirm your email:</p>
-                  <a href="${verificationUrl}">Verify Email</a>`,
+            html: `<p>Hi ${firstName},</p>
+                   <p>Welcome to our platform! 🎉</p>
+                   <p>Please confirm your email:</p>
+                   <a href="${verificationUrl}">Verify Email</a>`,
           });
 
           res.status(201).json({
-            message: "Vendor signup successful. Please verify your email.",
+            message: "Teacher signup successful. Please verify your email.",
           });
         }
       );
